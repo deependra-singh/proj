@@ -2,21 +2,15 @@ package com.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.connection.MyConnection;
 import com.dao.BookDAO;
 
 /**
@@ -43,26 +37,25 @@ public class RemoveBook extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
-		Connection con;
-		HttpSession session = request.getSession();
-
+		request.getSession();
+		response.setContentType("text/html");
 		try {
 
 			PrintWriter out = response.getWriter();
-			HttpSession hs = request.getSession();
+			request.getSession();
 			String bookName = request.getParameter("bookName");
 
 			rst = book.searchBook(bookName);
 
 			out.println("<br><br><br> <form action = 'remove' method = 'post'>");
 			while (rst.next()) {
-				out.println("<br><input type = 'radio' name = 'book' value = '" + rst.getString(2)+ "'>" + rst.getString(2));
+				out.println("<br><input type = 'radio' name = 'book' value = '" + rst.getString(1)+ "'>" + rst.getString(1));
 			}
 
 			out.println("<input type = 'submit' name = 'op' value = 'Remove Book'/>");
 			out.println("</form>");
 
-		} catch (Exception e) {
+		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 		}
 	}

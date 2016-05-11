@@ -2,18 +2,11 @@ package com.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.connection.MyConnection;
 import com.listeners.SessionCounter;
 
 /**
@@ -38,12 +31,9 @@ public class GetValidUser extends HttpServlet {
 		
 		response.setContentType("text/html");
 
-		HttpSession session = request.getSession();
-		SessionCounter counter = (SessionCounter) session.getAttribute(SessionCounter.COUNTER);
-
 		try {
 			PrintWriter out = response.getWriter();
-			int noOfUsers = counter.getActiveSessionNumber();
+			int noOfUsers = SessionCounter.getTotalActiveSessions();
 			if(noOfUsers == 0)
 			{
 				out.print("<h3>Currently " + ((noOfUsers)) + " user(s) are logged in...</h3>");

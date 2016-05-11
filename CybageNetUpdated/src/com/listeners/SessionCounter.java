@@ -1,16 +1,26 @@
 package com.listeners;
 
-import java.util.ArrayList;
-import javax.servlet.http.HttpSession;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.ServletRequestEvent;
+import javax.servlet.ServletRequestListener;
+import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-
-public class SessionCounter implements HttpSessionListener {
-
-	int userCounter = 0;
-	public static final String COUNTER = "session-counter";
+/**
+ * Application Lifecycle Listener implementation class SessionCounter
+ *
+ */
+@WebListener
+public class SessionCounter implements HttpSessionListener, ServletRequestListener, ServletContextListener {
 	
+	private static int activeSessions;
+	
+	public static int getTotalActiveSessions(){
+		return activeSessions;
+	}
+
     /**
      * Default constructor. 
      */
@@ -18,29 +28,48 @@ public class SessionCounter implements HttpSessionListener {
         // TODO Auto-generated constructor stub
     }
 
-	@Override
-	public void sessionCreated(HttpSessionEvent event) {
-		// TODO Auto-generated method stub
-		
-		HttpSession hs = event.getSession();
-    	userCounter++;
-    	hs.setAttribute(SessionCounter.COUNTER, this);
-		
-	}
+	/**
+     * @see ServletRequestListener#requestDestroyed(ServletRequestEvent)
+     */
+    public void requestDestroyed(ServletRequestEvent arg0)  { 
+         // TODO Auto-generated method stub
+    }
 
-	@Override
-	public void sessionDestroyed(HttpSessionEvent event) {
-        
-   	HttpSession hs = event.getSession();
-   	userCounter--;
-   	hs.setAttribute(SessionCounter.COUNTER, this);
-		
-	}
-	
-	public int getActiveSessionNumber()
-	{
-		return userCounter;
-	}
+	/**
+     * @see ServletContextListener#contextInitialized(ServletContextEvent)
+     */
+    public void contextInitialized(ServletContextEvent arg0)  { 
+         // TODO Auto-generated method stub
+    }
 
+	/**
+     * @see HttpSessionListener#sessionCreated(HttpSessionEvent)
+     */
+    public void sessionCreated(HttpSessionEvent arg0)  { 
+         // TODO Auto-generated method stub
+    	activeSessions++;
+    }
+
+	/**
+     * @see HttpSessionListener#sessionDestroyed(HttpSessionEvent)
+     */
+    public void sessionDestroyed(HttpSessionEvent arg0)  { 
+         // TODO Auto-generated method stub
+    	activeSessions--;
+    }
+
+	/**
+     * @see ServletContextListener#contextDestroyed(ServletContextEvent)
+     */
+    public void contextDestroyed(ServletContextEvent arg0)  { 
+         // TODO Auto-generated method stub
+    }
+
+	/**
+     * @see ServletRequestListener#requestInitialized(ServletRequestEvent)
+     */
+    public void requestInitialized(ServletRequestEvent arg0)  { 
+         // TODO Auto-generated method stub
+    }
 	
 }

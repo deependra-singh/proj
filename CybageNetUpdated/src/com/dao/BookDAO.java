@@ -1,69 +1,66 @@
 package com.dao;
 
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-
-import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 
 import com.connection.MyConnection;
-import com.pojo.Book;
 
 public class BookDAO {
-	
+
 	Connection con;
 	PreparedStatement pst;
 	ResultSet rst;
-	
-	public void addBook()
-	{
-		
+
+	public boolean addBook(String bookName, String bookAuthor, String bookPublisher) {
+		try{
+			con = MyConnection.connect();
+			
+			pst=con.prepareStatement("insert into books(book_name,book_author,book_publisher) values(?,?,?)");
+			pst.setString(1,bookName);
+			pst.setString(2,bookAuthor);
+			pst.setString(3,bookPublisher);
+			return pst.execute();
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+			return true;
+		}
 	}
 
-	public void removeBook()
-	{
+	public boolean removeBook(String option) {
 		
+		try{
+			con = MyConnection.connect();
+			pst = con.prepareStatement("delete from books where book_name=?");
+			pst.setString(1,option);
+			return pst.execute();
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+			return true;
+		}
+
 	}
-	
-	public ResultSet searchBook(String bookName)
-	{
-		
-		System.out.println("in search book");
-		
+
+	public ResultSet searchBook(String bookName) {
 		try {
-				con = MyConnection.connect();
-				
-				String s = "select * from books where name like '%$bookname";
-				String str = s.replace("$bookname", bookName);
-				String query = str.concat("%'");
-	
-				pst = con.prepareStatement(query);
-				rst = pst.executeQuery();
-	
-				System.out.println("rst in dao "+rst);
-				/*if(rst.next())
-				{
-				while (rst.next()) {
-					bookNames.add(rst.getString(1));
-					System.out.println("list in dao is "+bookNames);
-				}}
-				else
-				{
-					bookNames.add("no records found");
-				}
-				
-				
-				*/
-			}
-		
-		catch (Exception e)
-		{
+			con = MyConnection.connect();
+
+			String s = "select book_name from books where book_name like '%$bookname";
+			String str = s.replace("$bookname", bookName);
+			String query = str.concat("%'");
+
+			pst = con.prepareStatement(query);
+			rst = pst.executeQuery();
+		}
+
+		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return rst;
 	}
-	
+
 }
