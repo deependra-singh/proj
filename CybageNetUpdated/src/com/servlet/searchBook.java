@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -42,44 +43,43 @@ public class searchBook extends HttpServlet {
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+		
+		request.getSession();
+		response.setContentType("text/html");
+		try {
 
-		//Connection con;
+			PrintWriter out = response.getWriter();
+			request.getSession();
+			String bookName = request.getParameter("bookName");
+
+			rst = book.searchBook(bookName);
+
+			out.println("<br><br><br> <form action = 'getReview' method = 'post'>");
+			while (rst.next()) {
+				out.println("<br><input type = 'radio' name = 'book' value = '" + rst.getString(1)+ "'>" + rst.getString(1));
+			}
+
+			out.println("<input type = 'submit' name = 'op' value = 'Get Details'/>");
+			out.println("<input type = 'submit' name = 'op' value = 'Add Review'/>");
+			out.println("</form>");
+
+		} catch (SQLException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		/*
 		try {
 			
 			HttpSession session = request.getSession();
 			
-			response.setContentType("text/html");;
-		//	con = MyConnection.connect(); 
+			response.setContentType("text/html"); 
 		
 			PrintWriter out = response.getWriter();
 
 			String bookName = request.getParameter("bookName");
 			
 			rst = book.searchBook(bookName);
-			
-			Iterator<String> itr = bookNames.iterator();
 
-			/*String s = "select * from books where name like '%$bookname";
-
-			String str = s.replace("$bookname", bookName);
-
-			String st = str.concat("%'");
-
-			HttpSession ses = request.getSession();
-
-			System.out.println(st);
-
-			PreparedStatement pst = con.prepareStatement(st);
-			ResultSet rst = pst.executeQuery();
-
-			PrintWriter out = response.getWriter();
-			out.println("Books found are: <br>");
-			while (rst.next()) {
-				out.println("<br>" + rst.getString(2));
-			}*/
-
-			System.out.println("Books found are: ");
-			while(itr.hasNext())
 			{
 				out.println("<br>" + itr.next());
 			}
@@ -97,7 +97,7 @@ public class searchBook extends HttpServlet {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse

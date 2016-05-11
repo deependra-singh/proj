@@ -38,15 +38,15 @@ public class UserPage extends HttpServlet {
 				+ "<br>"
 				+ "<br>"
 				+ "<br>"
-				+ "<center>"
+				+ "<div align='center'>"
 				+ "<h3 align='center'>To search books, get details of book and add review for a book... Please enter book name:</h3>"
 				+ "<input type='text' name='bookName'>"
 				+ "<input type='submit' value='Search'>"
-				+ "</center>"
+				+ "</div>"
 				+ "</form>"
 				+ "<br>"
 				+ "<br>"
-				+ "<h3 align='right'><a href='logout.html'>Logout</a></h3>");
+				+ "<h3 align='right'><a href=logout>Logout</a></h3>");
 		//response.sendRedirect("adminPage.html");
 		
 	}

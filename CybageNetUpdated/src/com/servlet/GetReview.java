@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.connection.MyConnection;
+import com.dao.BookDAO;
 
 /**
  * Servlet implementation class AddBook
@@ -21,6 +22,8 @@ import com.connection.MyConnection;
 @WebServlet("/getReview")
 public class GetReview extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	BookDAO book = new BookDAO();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -36,11 +39,10 @@ public class GetReview extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
-		Connection con;
+		response.setContentType("text/html");
 		try {
-			con = MyConnection.connect();
-
-			String bookName = request.getParameter("bookName");
+			
+			String bookName = request.getParameter("book");
 
 			HttpSession hs = request.getSession();
 			hs.setAttribute("bookname", bookName);
@@ -48,20 +50,26 @@ public class GetReview extends HttpServlet {
 			String option = request.getParameter("op");
 			switch (option) {
 			case "Get Details":
-				PreparedStatement pst = con.prepareStatement("select * from books where name like ?");
-				pst.setString(1, bookName);
-				ResultSet rst = pst.executeQuery();
+				
+				ResultSet rst = book.getBookDetails(bookName);
 
 				PrintWriter out = response.getWriter();
-				out.print("Book reviews of <h3>");
+				out.print("<h3>Book details of ");
 				while (rst.next()) {
-					String str = rst.getString(3);
-					String[] str1 = str.split(",");
-
-					out.print(" " + rst.getString(2) + "</h3> are :");
-					for (int i = 0; i < str1.length; i++) {
-						out.println("<br>"+ (i+1) +" :- " + str1[i]);
+					out.print(rst.getString(1));
+					out.print(" are </h3><br><br>");
+					out.print("Author: " + rst.getString(2));
+					out.print("<br><br> Publisher: " + rst.getString(3));
+					
+					String allReviews = rst.getString(4);
+					String[] strArr = allReviews.split(",");
+					out.print("<br><br> Reviews:");
+					for (int i = 0; i < strArr.length; i++) {
+						out.println("<br>"+ (i+1) +" :- " + strArr[i]);
 					}
+					out.println("<div align='right'>"
+							+"<a href='userPage'>Go Back</a>"
+							+ "</div>");
 				}
 				break;
 
@@ -69,15 +77,9 @@ public class GetReview extends HttpServlet {
 				response.sendRedirect("addReview.html");
 				break;
 
-			case "Remove Book":
-				response.sendRedirect("removeBook");
-				break;
-
 			default:
 				break;
 			}
-
-			System.out.println("book review ");
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

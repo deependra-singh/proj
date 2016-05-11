@@ -43,7 +43,7 @@ public class GetValidUser extends HttpServlet {
 				out.print("<h3>Currently " + ((noOfUsers) - 1) + " user(s) are logged in...</h3>");
 			}
 			out.print("<h4 align = 'right'><a href = adminPage> Go back </a><h4>");
-			out.print("<h4 align = 'right'><a href = index.html> Logout </a><h4>");
+			out.print("<h4 align = 'right'><a href = logout> Logout </a><h4>");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

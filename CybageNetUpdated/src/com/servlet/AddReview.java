@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.connection.MyConnection;
+import com.dao.BookDAO;
 
 /**
  * Servlet implementation class AddBook
@@ -20,45 +21,44 @@ import com.connection.MyConnection;
 @WebServlet("/addReview")
 public class AddReview extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AddReview() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	BookDAO book = new BookDAO();
+	
+	String newReview;
+	String oldReview;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public AddReview() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 	
-		
-		Connection con;
 		try {
-			con = MyConnection.connect();
 		
 			HttpSession hs = request.getSession();
 			String bookName=(String) hs.getAttribute("bookname");
 			
-			PreparedStatement pst1=con.prepareStatement("select review from books where name = ?");
-			pst1.setString(1,bookName);
-			ResultSet rs = pst1.executeQuery();
-			String oldReview = null;
-			
+			ResultSet rs = book.getOldBookReview(bookName);
 			while(rs.next())
 			{
 				oldReview = rs.getString(1);
 			}
-			 
-		String newReview = oldReview.concat(",").concat(request.getParameter("review"));
-		PreparedStatement pst2=con.prepareStatement("update Books set review = ? where name = ?");
-		pst2.setString(1, newReview);
-		pst2.setString(2, bookName);
-		pst2.execute();
+			
+			if(oldReview.equals(null))
+			 	newReview = request.getParameter("review");
+			else
+				newReview = oldReview.concat(",").concat(request.getParameter("review"));
 		
-		response.sendRedirect("adminPage.html");
+		book.setNewBookReview(newReview, bookName);
+		
+		response.sendRedirect("userPage");
 		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -67,9 +67,11 @@ public class AddReview extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

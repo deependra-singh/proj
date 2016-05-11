@@ -45,7 +45,7 @@ public class AddBook extends HttpServlet {
 			if (!(book.addBook(bookName, bookAuthor, bookPublisher))) {
 				out.println(bookName + " added successfully");
 				out.println("<br><br> Wait until you are redirected to your home page..");
-				response.setHeader("Refresh", "5;adminPage");
+				response.setHeader("Refresh", "2;adminPage");
 			}
 
 		} catch (IOException e) {

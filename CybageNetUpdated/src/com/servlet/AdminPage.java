@@ -45,7 +45,7 @@ public class AdminPage extends HttpServlet {
 					+ "<input type='submit' value='Remove Book' name='op' formaction='removeBook.html'>"
 					+ "<input type='submit' value='Check User Log' name='op' formaction='getValidUser'>"
 					+ "</center>" + "</form>" + "<br>" + "<br>"
-					+ "<h3 align='right'><a href='index.html'>Logout</a></h3>");
+					+ "<h3 align='right'><a href=logout>Logout</a></h3>");
 
 		} catch (IOException e) {
 			e.printStackTrace();

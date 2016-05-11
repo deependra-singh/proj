@@ -52,7 +52,7 @@ public class Remove extends HttpServlet {
 
 				out.println("<br><br>Wait until you are redirected to your home page..");
 
-				response.setHeader("Refresh", "5;adminPage");
+				response.setHeader("Refresh", "2;adminPage");
 			}
 		}
 	}
