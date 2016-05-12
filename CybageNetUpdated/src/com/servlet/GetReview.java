@@ -22,7 +22,7 @@ import com.dao.BookDAO;
 @WebServlet("/getReview")
 public class GetReview extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	BookDAO book = new BookDAO();
 
 	/**
@@ -37,53 +37,76 @@ public class GetReview extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@SuppressWarnings("resource")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-
 		response.setContentType("text/html");
+		PrintWriter out = null;
 		try {
-			
-			String bookName = request.getParameter("book");
-
-			HttpSession hs = request.getSession();
-			hs.setAttribute("bookname", bookName);
-
-			String option = request.getParameter("op");
-			switch (option) {
-			case "Get Details":
-				
-				ResultSet rst = book.getBookDetails(bookName);
-
-				PrintWriter out = response.getWriter();
-				out.print("<h3>Book details of ");
-				while (rst.next()) {
-					out.print(rst.getString(1));
-					out.print(" are </h3><br><br>");
-					out.print("Author: " + rst.getString(2));
-					out.print("<br><br> Publisher: " + rst.getString(3));
-					
-					String allReviews = rst.getString(4);
-					String[] strArr = allReviews.split(",");
-					out.print("<br><br> Reviews:");
-					for (int i = 0; i < strArr.length; i++) {
-						out.println("<br>"+ (i+1) +" :- " + strArr[i]);
-					}
-					out.println("<div align='right'>"
-							+"<a href='userPage'>Go Back</a>"
-							+ "</div>");
-				}
-				break;
-
-			case "Add Review":
-				response.sendRedirect("addReview.html");
-				break;
-
-			default:
-				break;
-			}
-
-		} catch (Exception e) {
+			out = response.getWriter();
+		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
+		}
+		;
+
+		if (request.getParameter("book") != null) {
+			try {
+
+				out = response.getWriter();
+				String bookName = request.getParameter("book");
+
+				HttpSession hs = request.getSession();
+				hs.setAttribute("bookname", bookName);
+
+				String option = request.getParameter("op");
+				switch (option) {
+				case "Get Details":
+
+					ResultSet rst = book.getBookDetails(bookName);
+
+					out.print("<h3>Book details of ");
+					while (rst.next()) {
+						out.print(rst.getString(1));
+						out.print(" are </h3><br><br>");
+						out.print("Author: " + rst.getString(2));
+						out.print("<br><br> Publisher: " + rst.getString(3));
+						out.print("<br><br> Reviews:");
+						if (rst.getString(4) != null) {
+							String allReviews = rst.getString(4);
+							String[] strArr = allReviews.split(",");
+							for (int i = 0; i < strArr.length; i++) {
+								out.println("<br>" + (i + 1) + " :- " + strArr[i]);
+							}
+						} else {
+							out.print("<br>No reviews...");
+						}
+						out.println("<div align='right'>" + "<a href='userPage'>Go Back</a>" + "</div>");
+					}
+					break;
+
+				case "Add Review":
+					response.sendRedirect("addReview.html");
+					break;
+
+				default:
+					break;
+				}
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				out = response.getWriter();
+				out.println("Plzz select the option");
+				out.println("<br><br> Wait until you are redirected to your home page..");
+				response.setHeader("Refresh", "2;searchBook");
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
