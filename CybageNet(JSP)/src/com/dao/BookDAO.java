@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.swing.plaf.synth.SynthSeparatorUI;
-
 import com.connection.MyConnection;
 
 public class BookDAO {

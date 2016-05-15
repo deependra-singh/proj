@@ -28,8 +28,8 @@ else
 <%}
 %>
 <div align="right">
-<h4><a href = "adminPage.jsp"> Go back </a><h4>
-<h4><a href = "logout.jsp"> Logout </a><h4>
+<h4><a href = "adminPage.jsp"> Go back </a></h4>
+<h4><a href = "logout.jsp"> Logout </a></h4>
 </div>
 </body>
 </html>

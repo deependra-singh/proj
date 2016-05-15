@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:useBean id="userBean" class="com.beans.UserBean"></jsp:useBean>
+	<jsp:useBean id="userBean" class="com.beans.UserBean" scope="session"></jsp:useBean>
 	<%
 		String userType = request.getParameter("userType");
 		String name = request.getParameter("userName");

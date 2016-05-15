@@ -11,12 +11,10 @@
 
 <div align="right">
 Hello: 
-<%=
-session.getAttribute("username")
-%>
+<%= session.getAttribute("username") %>
 <a href="logout.jsp" style="margin-left: 20px">Logout</a>
 </div>
-	<form action="searchBook.jsp" method="get">
+	<form action="searchBook.jsp" method="post">
 		<br> <br> <br>
 		<div align="center">
 			<h3 align="center">To search books, get details of book and add

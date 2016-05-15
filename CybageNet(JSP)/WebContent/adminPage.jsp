@@ -10,7 +10,7 @@
 
 	<form>
 		<br> <br> <br>
-		<center>
+		<div align="center">
 			<input type="submit" value="Add Book" name="op"
 				formaction="addBook.jsp"> 
 				<input type="submit"
@@ -18,7 +18,7 @@
 				 <input
 				type="submit" value="Check User Log" name="op"
 				formaction="getValidUser.jsp">
-		</center>
+		</div>
 	</form>
 	<br>
 	<br>
