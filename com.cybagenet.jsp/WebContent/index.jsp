@@ -7,6 +7,8 @@
 <title>Cybage-Net</title>
 </head>
 <body>
+	<jsp:useBean id="countBean" class="com.cybagenet.jsp.bean.CountBean" scope="application"></jsp:useBean>
+
 	<div align="center">
 		<form action="validate.jsp" method="post">
 
@@ -21,5 +23,7 @@
 
 		</form>
 	</div>
+	
+	<footer>Site accessed till date by: <%= countBean.hitCount %></footer>
 </body>
 </html>

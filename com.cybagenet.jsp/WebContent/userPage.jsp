@@ -8,6 +8,8 @@
 </head>
 <body>
 
+	<jsp:useBean id="countBean" class="com.cybagenet.jsp.bean.CountBean" scope="application"></jsp:useBean>
+
 	<div align="right">
 		Hello:
 		<%=session.getAttribute("loggedInUser")%>
@@ -22,6 +24,8 @@
 				type="submit" value="Search">
 		</form>
 	</div>
+
+	<footer>Site accessed till date by: <%= countBean.hitCount %></footer>
 
 </body>
 </html>

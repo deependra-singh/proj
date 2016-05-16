@@ -20,6 +20,7 @@
 	<%
 	String searchBookName = request.getParameter("bookName");
 	String fullBookName = request.getParameter("book");
+	System.out.print(fullBookName);
 	if (searchBookName == null){
 		%>
 		<div align="center">
@@ -36,7 +37,7 @@
 	} else if (fullBookName == null){
 		ResultSet rst = bookBean.searchBook(searchBookName);
 		%>
-		<form action = "removeBook.jsp" method = "post">
+		<form action = "removeBookFinal.jsp" method = "post">
 		<%
 		while(rst.next()){
 			%>
@@ -50,17 +51,7 @@
 		<input type = "submit" name = "op" value = "Remove"/>
 		</form>
 		<%
-		System.out.println(fullBookName);
-	} else {
-		System.out.println(fullBookName);
-		if (!(bookBean.removeBook(fullBookName))){
-			%>
-			${param.book} is removed from database
-			<br><br>Wait until you are redirected to your home page..
-			<%
-			response.setHeader("Refresh", "2;adminPage.jsp");
-		}
-	}
+	} 
 	%>
 
 </body>

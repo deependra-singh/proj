@@ -1,4 +1,4 @@
-package com.filters;
+package com.cybagenet.jsp.filters;
 
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -8,10 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.Cookie;
-
-import com.dao.UserDAO;
-import com.helper.*;
+import com.cybagenet.jsp.bean.UserBean;
 /**
  * Servlet Filter implementation class LogFilter
  */
@@ -19,7 +16,7 @@ import com.helper.*;
 public class LogFilter implements Filter {
 
 	static int hitCount=0;
-	UserDAO user = new UserDAO();
+	UserBean user = new UserBean();
 	
     /**
      * Default constructor. 
@@ -38,25 +35,9 @@ public class LogFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-		String userName = request.getParameter("username");
+		String userName = request.getParameter("userName");
 		String ipAddress = request.getRemoteAddr();
-		
-		GetHitCount count=new GetHitCount();
-		
-			if(!count.getCount(userName))
-			{
-				hitCount++;
-				//Cookie cookie=new Cookie("count", Integer.toUnsignedString(hitCount));
-				
-				request.setAttribute("hitCount", hitCount);
-			}
-			
-			else
-			{
-				request.setAttribute("hitCount", hitCount);
-			}
-		
-			user.addUserLog(userName, ipAddress);
+		user.addUserLog(userName, ipAddress);
 			
 		// pass the request along the filter chain
 		chain.doFilter(request, response);

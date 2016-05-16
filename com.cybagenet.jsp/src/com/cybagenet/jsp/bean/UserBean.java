@@ -62,5 +62,29 @@ public class UserBean {
 			e.printStackTrace();
 		}
 	}
+	
+	public boolean checkUserLog(String name) {
+		
+		boolean result = false;
+		
+		try {
+			con = MyConnection.connect();
+			if (con != null) {
+				query = "select userlog_loginname from userlog";
+				pst = con.prepareStatement(query);
+				rs = pst.executeQuery();
+				while(rs.next()){
+					if(rs.getString(1) != null){
+						if(rs.getString(1).equals(name))
+							result = true;
+					}
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 }

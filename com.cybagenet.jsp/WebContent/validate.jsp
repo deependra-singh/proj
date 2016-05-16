@@ -9,6 +9,7 @@
 <body>
 
 	<jsp:useBean id="userBean" class="com.cybagenet.jsp.bean.UserBean"></jsp:useBean>
+	<jsp:useBean id="countBean" class="com.cybagenet.jsp.bean.CountBean" scope="application"></jsp:useBean>
 
 	<%
 	String userType = request.getParameter("userType");
@@ -32,7 +33,10 @@
 		
 	default:
 		String result = userBean.validateUser(userName, password);
+		if(!(countBean.visitorCount(userName)))
+			countBean.increaseHitCount();
 		if (result.equals("valid")){
+			countBean.addUser(userName);
 			session.setAttribute("loggedInUser", userName);
 	%>
 	<jsp:forward page="userPage.jsp"></jsp:forward>

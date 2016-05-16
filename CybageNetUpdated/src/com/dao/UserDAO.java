@@ -63,4 +63,21 @@ public class UserDAO {
 		}
 	}
 
+	public ResultSet getUserLog() {
+		try {
+				con = MyConnection.connect();
+				if (con != null) {
+					query = "select userlog_loginname from userlog";
+					pst=con.prepareStatement(query);
+					rs= pst.executeQuery();
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return rs;
+	}
+	
+	
 }

@@ -32,6 +32,7 @@ public class GetValidUser extends HttpServlet {
 		response.setContentType("text/html");
 
 		try {
+			
 			PrintWriter out = response.getWriter();
 			int noOfUsers = SessionCounter.getTotalActiveSessions();
 			if(noOfUsers == 0)

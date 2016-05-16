@@ -3,12 +3,16 @@ package com.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.catalina.core.ApplicationContext;
 
 import com.dao.UserDAO;
 
@@ -20,7 +24,7 @@ public class ValidateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	UserDAO user = new UserDAO();
-
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -36,13 +40,17 @@ public class ValidateServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 
+		
 		String userType = request.getParameter("userType");
 		String name = request.getParameter("username");
 		String pwd = request.getParameter("pass");
 
 		HttpSession session = request.getSession();
 		session.setAttribute("username", name);
-
+		/*Cookie[] cookie=request.getCookies();
+		 if(cookie[0].getName().equals("count")) 
+			 System.out.println("cookie value "+cookie[0].getValue());*/
+		
 		RequestDispatcher rd;
 		try {
 
@@ -63,13 +71,32 @@ public class ValidateServlet extends HttpServlet {
 				break;
 
 			default:
-				String result = user.validateUser(name, pwd);
+			
+				int hitCount;
+				
+				if(request.getAttribute("hitCount") != null)
+					{
+						hitCount =((Integer)request.getAttribute("hitCount"));
+						
+					}				
+				else
+				{
+					hitCount = 1;
+				}
+				
+			String result = user.validateUser(name, pwd);
+				
 				if (result.equals("valid")) {
-					rd = request.getRequestDispatcher("userPage");
+					
+				ServletContext context = request.getSession().getServletContext();
+				context.setAttribute("hitCount", hitCount);
+
+				rd = request.getRequestDispatcher("userPage");
 					rd.forward(request, response);
+					
 				} else {
 					response.setContentType("text/html");
-					out.print("Invalid password");
+					out.println("<p><font color='blue'>SITE HIT COUNT: " + hitCount + "</font></p><p><font color='red'>Invalid password</font></p><br>");
 					rd = request.getRequestDispatcher("index.html");
 					rd.include(request, response);
 				}

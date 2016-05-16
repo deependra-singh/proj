@@ -8,4 +8,13 @@
   <session-config>
   	<session-timeout>-1</session-timeout>
   </session-config>
+  
+  <filter>
+    <filter-name>logFilter</filter-name>
+    <filter-class>com.cybagenet.jsp.filters.LogFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>logFilter</filter-name>
+    <url-pattern>/validate.jsp</url-pattern>
+  </filter-mapping>
 </web-app>
