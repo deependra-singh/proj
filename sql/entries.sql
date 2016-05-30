@@ -28,6 +28,6 @@ INSERT INTO `book`.`books`
 `book_author`,
 `book_publisher`)
 VALUES
-('3 Mistakes of My Life',
+('Three Mistakes of My Life',
 'Chetan Bhagat',
 'Rupa');

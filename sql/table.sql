@@ -8,7 +8,8 @@ CREATE TABLE `books` (
   `book_author` varchar(50) DEFAULT NULL,
   `book_publisher` varchar(50) DEFAULT NULL,
   `book_review` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`book_ID`)
+  PRIMARY KEY (`book_ID`),
+  UNIQUE(book_name)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `userlog` (
