@@ -3,6 +3,7 @@ angularjs.org
 jasmine.github.io/edge/introduction.html
 
 https://plnkr.co/edit/ahwqIonuI5awRMANWrvj?p=info
+https://plnkr.co/edit/HWfufpsqyo3I1FDTBFr8?p=info
 
 1st day --
 http://plnkr.co/edit/QQDfyVCqU0cjyr2c8C2H?p=preview
@@ -10,3 +11,26 @@ http://plnkr.co/edit/QQDfyVCqU0cjyr2c8C2H?p=preview
 2nd day --
 http://plnkr.co/edit/nz9NG1LylQgxSG58vA8Q?p=preview
 https://plnkr.co/edit/L7zZzLGJKWqnSyDRRFyu?p=info
+
+4th day --
+https://plnkr.co/edit/oXUS9Exy1caJ83NMeBYa?p=preview
+
+5th day --
+https://empapi-ashishku.c9.io/api/emps
+https://plnkr.co/edit/NhReW3WslneDrkg2sIei?p=info
+
+
+
+
+
+
+
+
+
+So the replace property in directives refer to whether the element to which the directive is being applied (<my-dir> in that case) should remain (replace: false) and the direcrive's template should be appended as it's child,
+
+OR
+
+the element to which the directive is being applied should be replaced (replace: true) by the directive's template.
+
+In both cases the element's (to which the directive is being applied) children will be lost. If you wanted to perserve the element's original content/children you would have to translude it. The following directive would do it:
