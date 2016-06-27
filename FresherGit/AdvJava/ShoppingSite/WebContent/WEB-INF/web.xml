@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <welcome-file-list>
+    <welcome-file>welcome.jsp</welcome-file>
+  </welcome-file-list>
+  
+  
+  <filter>
+    <filter-name>FilterImplementation</filter-name>
+    <filter-class>cyb.servlets.FilterImplementation</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>FilterImplementation</filter-name>
+    <servlet-name>cyb.servlets.ValidateUser</servlet-name>
+  </filter-mapping>
+</web-app>
